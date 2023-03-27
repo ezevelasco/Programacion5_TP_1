@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo</title>
+</head>
+<body onLoad="cambiarEstado()">
+    <h1><u>Estado del Server</u></h1>
+
+    <h5>Mensaje de Hoy:</h5>
+    <p id="mensaje"></p>
+
+    <!-- Cambia el color del fondo-->
+    <button id="generador" onClick="cambiarColor()">Cambiar color de fondo</button>
+    
+    <!-- Activa el modo Epileptico, No para epilepticos-->
+    <button onClick="modoEpileptico(10)">Activar modo epileptico</button>
+    
+
+
+
+    <script>
+        // Cambia el porcentaje del estado del servidor cuando la página carga.
+        function cambiarEstado(){
+            let aletaorio = "El server se encuentra al "+Math.trunc(Math.random()*100)+"% de su capacidad.";
+            document.getElementById("mensaje").innerHTML = aletaorio;
+        }
+    
+        // Cambia el color del body cuando se hace click en el botón "Cambiar color de fondo".
+        function cambiarColor(){
+            var randomColor = Math.floor(Math.random()*16777215).toString(16);
+            document.body.style.backgroundColor = "#"+randomColor;
+        }
+
+        // Cambiar el color del body y aumenta el tamaño del texto cada 100 ms, no para epilepticos. 
+        function modoEpileptico(i) {
+            setTimeout(function() {
+                cambiarEstado();
+                cambiarColor();         
+                
+                document.getElementById("mensaje").style.fontSize = i+"px";
+                if (++i){
+                    modoEpileptico(i);
+                }
+            }, 100)
+        }; 
+
+        </script>
+</body>
+</html>
