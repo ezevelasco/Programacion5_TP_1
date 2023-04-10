@@ -1,55 +1,60 @@
     const palabrAdivinar = ingresarPalabra();
-    let aciertos = "";
 
     
     
-    //Seteo la variable en ????
+    // Creo una variable auxiliar con el tamaño de la palabra ingresada pero en cada caracter se coloca un "?"
     let palabraOculta="";
     palabrAdivinar.forEach(caracter =>{
         palabraOculta= palabraOculta +"?";
     });
     
 
-
-    let arrCoincidencias = [];
-
+    
     const letra = document.querySelector('input');
     let intentosRestantes = 5;
     
-        letra.oninput = function(){
-            if(intentosRestantes != 0){
-                if(soloLetras(letra.value, palabrAdivinar) == true){
-                    document.querySelector('input').value="";
-                    if(palabraOculta == palabrAdivinar.join("")){
+    
+    letra.oninput = function(){
+        if(intentosRestantes != 0){ //Checkeo que existan intentos restantes
+
+            // Si existen, verifico si la palabra ingresada es correcta
+            if(soloLetras(letra.value, palabrAdivinar) == true){
+
+                // Si es correcta, limpio el input
+                document.querySelector('input').value="";
+
+                // Checkeo si la palabra se completó
+                if(palabraOculta == palabrAdivinar.join("")){
+
+                        //Si se completa, seteo el cartel y su diseño
                         document.getElementById("alerta").innerHTML="¡Ganaste!";
                         document.getElementById("alerta").className="badge bg-success";
                         
+                        // Inhabilito el input y lo limpio
                         document.querySelector('input').disabled=true;
                         document.querySelector('input').value="";
-                    }
-                }else{                  
-                    document.querySelector('img').src="fotos/pixil-frame-"+intentosRestantes+".png";
-                    
-                    
-                    intentosRestantes = intentosRestantes -1;
+                }
+            }else{     
+                // Si no es correcta, cambio de imagen y disminuyo los intentos restantes
+                document.querySelector('img').src="fotos/pixil-frame-"+intentosRestantes+".png";
+                intentosRestantes = intentosRestantes -1;
+
+                    // Checkeo que si los intentos restantes sean nulos y muestro mensaje correspondientes
                     if(intentosRestantes == 0){
                         document.getElementById("alerta").innerHTML="¡Último intento!";
                     }else{
                         document.getElementById("alerta").innerHTML="Quedan "+intentosRestantes+" intentos";
-                    }
-                    
-                    
-                    
-                }
-            }else{
+                    }        
+            }
+        }else{
+                //En el caso de que no queden intentos se coloca la foto de Perdiste, se inhabilita el input y se lo limpia
                 document.querySelector('img').src="fotos/pixil-frame-0.png";
                 document.getElementById("alerta").innerHTML="¡Perdiste!";
                 document.querySelector('input').disabled=true;
                 document.querySelector('input').value="";
-
-            }
+        }
             
-        };
+    };
 
     
     
@@ -57,16 +62,20 @@
     function ingresarPalabra(){
         const ventana = prompt("¡Ingresa una palabra para adivinar!");
         const arrPalabra = ventana.split("");
-        
-
-        document.getElementById("tablero").innerHTML = `
+        if(arrPalabra.length == 0){
+            return ingresarPalabra();
+        }else{
+            document.getElementById("tablero").innerHTML = `
             <table class="table" border="1">
                 <tr class="table-secondary">
                     ${creaTablero(arrPalabra)}    
                 </tr>    
             </table>
-        `;
+            `;
         return arrPalabra;
+        }
+
+        
     };
 
     function creaTablero(arrPalabra){
