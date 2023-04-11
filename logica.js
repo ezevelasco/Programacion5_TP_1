@@ -58,13 +58,25 @@
 
     
     
-
+    //agregar boton de volver a comenzar y checkear nros
     function ingresarPalabra(){
         const ventana = prompt("¡Ingresa una palabra para adivinar!");
         const arrPalabra = ventana.split("");
+        let palabra = arrPalabra.join("");
+
+    
+        console.log(!/^[a-zA-Z]+$/.test(palabra));
+
+       if(!/^[a-zA-Z]+$/.test(palabra)){
+            alert("Ingrese únicamente letras.")
+            return ingresarPalabra();
+       }
+
+        // Valido que no sea nula y que no contenga numeros
         if(arrPalabra.length == 0){
             return ingresarPalabra();
         }else{
+
             document.getElementById("tablero").innerHTML = `
             <table class="table" border="1">
                 <tr class="table-secondary">
@@ -73,7 +85,7 @@
             </table>
             `;
         return arrPalabra;
-        }
+        }  
 
         
     };
